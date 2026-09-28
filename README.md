@@ -1,59 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MarketLink
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Farm Fresh Just a Click Away
 
-## About Laravel
+MarketLink is a pre-order website for farmers markets. Farmers put their weekly stock and prices online, customers reserve items before market day, pick a pickup slot and collect the order at the stall. Payment is done in person at pickup.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Built by Team Strange Squad for TechWiz7 (Theme: eGreen Basket, Category: End-to-End Web Solutions).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Live: https://ubaidportfolio.infinityfree.me/
+- Covers 6 Texas markets: Houston, Dallas, San Antonio, Austin, Fort Worth and El Paso
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+**Customer**
+- Register, login, Continue with Google, forgot password
+- Markets near me on a map with distance and directions
+- Browse and filter products by category, market, day and price
+- Basket grouped by farmer, checkout with market and pickup slot
+- Change or cancel an order before the farmer cutoff time
+- Favourite farmers, products and markets, back-in-stock alerts
+- Reviews and ratings after a completed order
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+**Farmer**
+- Stall profile with map pin, markets, stall number and cutoff hours
+- Add, edit and delete products, mark sold out, weekly stock refill
+- Pickup slots, accept or decline pre-orders, mark ready and completed
+- Sales insights with charts, reply to reviews
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Admin (3 tiers: Super Admin, Support Admin, Community Moderator)**
+- Approve or suspend farmers, activate or deactivate customers
+- Manage markets, categories and announcements
+- Hide products or reviews that break the rules
+- Reports with date range, CSV export and print
 
-## Laravel Sponsors
+**Extra**
+- AI agents for customer, farmer and admin that can do tasks and always ask before changing data
+- Urgent orders (pickup within the hour) with optional AI auto-confirm
+- Community feed, customer-farmer messages with photo and voice notes
+- Ctrl+K search across products, farmers and markets
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Tech Stack
 
-### Premium Partners
+Laravel 12, Blade, Tailwind CSS, Alpine.js, MySQL, Vite, Leaflet + OpenStreetMap, Chart.js, Spatie Laravel Permission, Laravel Socialite, Groq API
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Installation
 
-## Contributing
+Requirements: PHP 8.2+, Composer, Node.js, MySQL (XAMPP works)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git clone https://github.com/Ali-berry/marketlink-techwiz7
+cd marketlink-techwiz7
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+Create an empty MySQL database and set its name, user and password in `.env`. Then:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan migrate --seed
+php artisan storage:link
+npm run build
+php artisan serve
+```
 
-## Security Vulnerabilities
+Open http://127.0.0.1:8000
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Optional keys in `.env` (if a key is empty, only that feature is switched off):
 
-## License
+| Key | Used for |
+|---|---|
+| GROQ_API_KEY_PRIMARY, GROQ_API_KEY_SECONDARY | AI agents |
+| ABSTRACT_EMAIL_VALIDATION_API_KEY | Email check at signup |
+| GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET | Google login |
+| GOOGLE_MAPS_API_KEY | Area autocomplete |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+For the demo, `MAIL_MAILER=log` is used, so emails are written to `storage/logs/laravel.log`. For urgent orders you can run `php artisan schedule:work` (optional, status also updates when the page is opened).
+
+Run tests with `php artisan test`.
+
+## Demo Accounts
+
+The login page also has demo buttons for quick login.
+
+| Role | Email | Password |
+|---|---|---|
+| Super Admin | admin@marketlink.test | Admin@1234 |
+| Support Admin | support@marketlink.test | Support@1234 |
+| Community Moderator | community-mod@marketlink.test | Community@1234 |
+| Farmer (Green Valley Farm) | greenvalley@marketlink.test | Farmer@1234 |
+| Farmer (Wildflower Honey Co., pending approval) | wildflower@marketlink.test | Farmer@1234 |
+| Customer (Sara Ahmed) | sara@marketlink.test | Customer@1234 |
+
+All 12 accounts are listed in the User Credentials file of the submission.
+
+## Team Strange Squad
+
+| Member | Work |
+|---|---|
+| Ubaid (Team Leader) | Project structure, hosting, error resolving |
+| Ali | Web development, planning, UI / UX, AI agent features, documentation, demo video |
+| Zaryan | Support |
+| Ammar | Support |
+
+## AI Tools
+
+As asked in the SRS: Claude Code was used as a coding assistant, Google Gemini and ChatGPT for images, and the Groq API runs the AI agents inside the app. Details are in section 21 of the project documentation.
