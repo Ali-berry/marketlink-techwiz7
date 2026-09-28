@@ -1,0 +1,451 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* public pages ke glass tokens (blob background wale pages) - .glass / .glass-dark neeche hain */
+        --glass-bg-light: rgba(255, 255, 255, 0.14);
+        --glass-bg-dark: rgba(255, 255, 255, 0.08);
+        --glass-border: rgba(255, 255, 255, 0.35);
+        --glass-border-soft: rgba(255, 255, 255, 0.18);
+        --glass-shadow: 0 8px 32px rgba(31, 77, 44, 0.15);
+        --glass-blur: 16px;
+        --glass-radius: 20px;
+    }
+
+    /* phone pe heavy blur mehenga hai, is liye halka blur */
+    @media (max-width: 768px) {
+        :root {
+            --glass-blur: 8px;
+        }
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    /* chat composer [hidden] se bars chhupata hai, magar Tailwind ka [hidden] .flex se haar jata hai -
+       !important ke baghair bars kabhi hide nahi hoti */
+    [hidden] {
+        display: none !important;
+    }
+
+    body {
+        @apply bg-cream text-soil antialiased;
+    }
+
+    h1, h2, h3, h4 {
+        @apply font-display text-soil;
+    }
+}
+
+@layer components {
+    /* buttons hamesha pill, ek screen pe ek primary. Website ke glass buttons jaisa look taake panel aur site match karen */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    }
+    .btn-danger {
+        @apply btn border border-red-200 text-red-700 hover:border-red-300 hover:bg-red-50 focus-visible:ring-red-300;
+        background: rgba(255, 255, 255, 0.7);
+    }
+
+    /* panel ka main card - glass magar zyada solid (62% white), taake tables aur forms aaram se parhe jayen */
+    .card {
+        @apply p-6;
+        background: rgba(255, 255, 255, 0.62);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: var(--glass-radius);
+        box-shadow: var(--glass-shadow);
+    }
+
+    .icon-chip {
+        @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xl;
+    }
+
+    .form-label {
+        @apply mb-1.5 block text-sm font-medium text-soil;
+    }
+    .form-input {
+        @apply block w-full rounded-xl border-leaf-900/10 text-sm text-soil placeholder:text-soil-muted/60 focus:border-tomato-300 focus:ring-tomato-300;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    .form-error {
+        @apply mt-1.5 text-sm text-red-600;
+    }
+
+    .table-clean {
+        @apply w-full text-left text-sm;
+    }
+    .table-clean thead th {
+        @apply border-b border-white/60 pb-3 text-xs font-medium text-soil-muted;
+    }
+    .table-clean tbody td {
+        @apply border-b border-white/50 py-3.5 align-middle;
+    }
+    .table-clean tbody tr {
+        @apply transition-colors hover:bg-white/40;
+    }
+    .table-clean tbody tr:last-child td {
+        @apply border-b-0;
+    }
+
+    /* list ke upar status tabs - glass track, active tab leaf green (sidebar ke active link jaisa) */
+    .tab-bar {
+        @apply mb-6 inline-flex max-w-full flex-wrap gap-1 rounded-3xl p-1.5;
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: var(--glass-shadow);
+    }
+    .tab-pill {
+        @apply rounded-full px-4 py-2 text-sm font-medium text-soil-muted transition hover:bg-white/70 hover:text-soil;
+    }
+    .tab-pill.is-active {
+        @apply bg-leaf-600 text-white shadow-sm hover:bg-leaf-600 hover:text-white;
+    }
+
+    .panel-sidebar {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border-right: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: var(--glass-shadow);
+    }
+
+    /* auth pages photo + dark overlay pe hain, is liye card mein light text aur glass inputs.
+       sirf .auth-card ke andar - baqi app ke forms waise hi rehne chahiye */
+    .auth-card {
+        @apply text-white/90;
+    }
+    .auth-card h1, .auth-card h2, .auth-card h3, .auth-card h4 {
+        @apply text-white;
+    }
+    .auth-card .form-label {
+        @apply text-white/80;
+    }
+    .auth-card .form-input {
+        @apply text-white placeholder:text-white/50 focus:border-tomato-300 focus:ring-tomato-300;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    /* browser ki <select> list white hoti hai, white text wale options gayab ho jate */
+    .auth-card select.form-input option {
+        color: theme('colors.soil.DEFAULT');
+    }
+    .auth-card .text-soil-muted, .auth-card .text-soil {
+        @apply text-white/65;
+    }
+    .auth-card .btn-outline {
+        @apply border-white/20 bg-white/5 text-white hover:border-white/40 hover:bg-white/10;
+    }
+    /* dark greens cream pe theek magar is dark glass pe nazar nahi aate */
+    .auth-card .text-leaf-600 {
+        @apply text-leaf-200;
+    }
+    .auth-card .text-leaf-800, .auth-card .hover\:text-leaf-800:hover {
+        @apply text-white;
+    }
+
+    /* auth pages ka "I want to buy / sell" switch - chunne pe orange gradient */
+    .glass-pill {
+        @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-tomato-300;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .glass-pill:hover {
+        background: rgba(255, 255, 255, 0.16);
+    }
+    .glass-pill.is-selected {
+        background: linear-gradient(135deg, #f2954a, #e8792f);
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* har password rule ka chip (ui/password-checklist) - rule poora ho to green.
+       profile page light hai, .auth-card neeche isay glass bana deta hai */
+    .password-chip {
+        @apply inline-flex items-center gap-1.5 rounded-full border border-cream-dark bg-white/70 px-2.5 py-1 text-xs text-soil-muted transition;
+    }
+    .password-chip.is-met {
+        @apply border-leaf-500 bg-leaf-500 text-white;
+    }
+    .auth-card .password-chip {
+        @apply border-white/25 bg-white/10 text-white/75;
+    }
+    .auth-card .password-chip.is-met {
+        @apply border-leaf-400 bg-leaf-500 text-white;
+    }
+
+    /* public pages ke saare cards in do mein se ek use karte hain, taake peeche ka blob background dikhe */
+    .glass {
+        background: var(--glass-bg-light);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+        border-radius: var(--glass-radius);
+        box-shadow: var(--glass-shadow);
+    }
+    .glass-dark {
+        background: var(--glass-bg-dark);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border-soft);
+        border-radius: var(--glass-radius);
+        box-shadow: var(--glass-shadow);
+    }
+
+    /* navbar ka apna variant - .glass-dark sirf 8% white hai, light sections pe washed out ho jata aur
+       white text nahi dikhta. Is liye asli dark green fill */
+    .nav-glass {
+        background: rgba(21, 61, 38, 0.88);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border-soft);
+        border-radius: var(--glass-radius);
+        box-shadow: var(--glass-shadow);
+    }
+
+    /* modal peeche ke busy content (cards, grids) ke upar khulta hai, 14% tint se wo shor ban ke dikhta hai -
+       yahan bohat zyada opaque */
+    .modal-glass {
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+        border-radius: var(--glass-radius);
+        box-shadow: 0 20px 60px rgba(31, 77, 44, 0.25);
+    }
+
+    /* glass sections ke do button - primary orange gradient pill, secondary see-through glass */
+    /* panels ke .btn-primary aur .btn-accent bhi yahi look use karte hain */
+    .btn-glass-orange, .btn-primary, .btn-accent {
+        @apply btn text-white transition focus-visible:ring-tomato-300;
+        background: linear-gradient(135deg, #f2954a, #e8792f);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .btn-glass-orange:hover, .btn-primary:hover, .btn-accent:hover {
+        box-shadow: 0 0 24px rgba(232, 121, 47, 0.55);
+    }
+    .btn-glass {
+        @apply btn text-white transition;
+        background: var(--glass-bg-light);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+    }
+    .btn-glass:hover {
+        background: rgba(255, 255, 255, 0.22);
+    }
+    /* .btn-glass ka text white hai, sirf photo / green pe chalta hai - light background ke liye green text wala */
+    /* panels ka .btn-outline bhi yahi */
+    .btn-glass-outline, .btn-outline {
+        @apply btn border border-leaf-500/30 text-leaf-700 transition hover:border-leaf-500/60 hover:text-leaf-800 focus-visible:ring-leaf-300;
+        background: rgba(255, 255, 255, 0.45);
+    }
+    .btn-glass-outline:hover, .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.7);
+    }
+
+    /* glass card pe icon ka chhota glass circle - default orange tint, icon ka apna rang markup mein set hota hai */
+    .glass-icon-chip {
+        @apply icon-chip;
+        background: rgba(232, 121, 47, 0.15);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid rgba(232, 121, 47, 0.3);
+    }
+    /* green sections pe 15% tint muddy ho jata hai, is liye wahan tez tint taake orange hi lage */
+    .section-solid-green .glass-icon-chip {
+        background: rgba(232, 121, 47, 0.72);
+        border-color: rgba(232, 121, 47, 0.8);
+    }
+
+    /* category / product cards ke liye green tint wala glass. compound selector taake class order kuch bhi ho .glass se jeete */
+    .glass.glass-tint-green {
+        background: linear-gradient(rgba(33, 75, 44, 0.06), rgba(33, 75, 44, 0.06)), var(--glass-bg-light);
+    }
+
+    /* solid green blocks (stats bar, farmer CTA, footer) - blob wala hi green, poora opaque */
+    .section-solid-green {
+        background: linear-gradient(180deg, #1f4d2c 0%, #173a21 100%);
+    }
+
+    /* chhota solid orange pill - "Only 3 left", "New stall", "Featured" */
+    .badge-orange {
+        @apply inline-flex items-center rounded-full bg-tomato-500 px-3 py-1 text-xs font-semibold text-white;
+    }
+
+    /* orange "view more" link, light background pe tomato-600 link jaisa parha jata hai */
+    .link-orange {
+        @apply inline-flex items-center gap-1.5 text-sm font-semibold text-tomato-600 transition hover:text-tomato-700;
+    }
+
+    /* fixed full-page background: 3-4 bade blurred blobs jo aahista hilte hain, taake glass cards ke peeche kuch dikhe.
+       markup blob-background.blade.php mein */
+    .bg-blobs {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+        background-color: #f7f5f0;
+    }
+    .bg-blobs__blob {
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(80px);
+        will-change: transform;
+        animation: blob-drift 26s ease-in-out infinite;
+    }
+    .bg-blobs__blob--green {
+        top: -10%;
+        left: -8%;
+        width: 55vw;
+        height: 55vw;
+        background: radial-gradient(circle, #1f4d2c, #3f7d4f);
+        opacity: 0.45;
+    }
+    .bg-blobs__blob--orange {
+        top: 20%;
+        right: -12%;
+        width: 48vw;
+        height: 48vw;
+        background: radial-gradient(circle, #e8792f, #f4a95c);
+        opacity: 0.4;
+        animation-delay: -8s;
+        animation-duration: 30s;
+    }
+    .bg-blobs__blob--cream {
+        bottom: -15%;
+        left: 20%;
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle, #f6efe1, #f6efe1);
+        opacity: 0.55;
+        animation-delay: -16s;
+        animation-duration: 24s;
+    }
+    .bg-blobs__blob--green-soft {
+        bottom: 5%;
+        right: 10%;
+        width: 36vw;
+        height: 36vw;
+        background: radial-gradient(circle, #3f7d4f, #1f4d2c);
+        opacity: 0.35;
+        animation-delay: -4s;
+        animation-duration: 28s;
+    }
+    /* panels ke liye wahi blobs, upar cream wash */
+    .bg-blobs--subtle::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(247, 245, 240, 0.4);
+    }
+    @keyframes blob-drift {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(30px, -30px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .bg-blobs__blob {
+            animation: none;
+        }
+    }
+}
+
+/* home hero slider (home-hero-slider.js). @layer se bahar jaan boojh ke - is-active / is-leaving sirf JS lagata hai,
+   layer mein hote to Tailwind hata deta. Sirf opacity aur transform animate hote hain, layout nahi hilta.
+   --hero-slide-duration JS ke AUTOPLAY_DELAY_MS se aata hai */
+.hero-slide {
+    opacity: 0;
+    transition: opacity 800ms ease-in-out;
+}
+/* naya slide purane ke upar fade hota hai, purana neeche poora dikhta rehta hai - warna beech mein flash aata */
+.hero-slide.is-active {
+    z-index: 2;
+    opacity: 1;
+}
+.hero-slide.is-leaving {
+    z-index: 1;
+    opacity: 1;
+}
+/* photo pe aahista zoom, slide se thora lamba taake agla slide aate waqt bhi chal raha ho */
+.hero-slide.is-active img,
+.hero-slide.is-leaving img {
+    animation: hero-ken-burns calc(var(--hero-slide-duration, 3000ms) + 800ms) ease-out forwards;
+}
+/* same animation naam, taake jata hua slide wahin ruk jaye, zoom shuru pe wapas na jaye */
+.hero-slide.is-leaving img,
+.hero-slider-paused .hero-slide.is-active img {
+    animation-play-state: paused;
+}
+
+/* inactive copy ek hi grid cell mein chhupi hai - hero ki height ek rehti hai aur buttons pe tab nahi jata */
+.hero-copy {
+    visibility: hidden;
+    opacity: 0;
+}
+.hero-copy.is-active {
+    visibility: visible;
+    opacity: 1;
+}
+/* 150ms baad shuru jab purani copy fade ho chuki, phir heading, paragraph, buttons 100ms ke farq se */
+.hero-copy.is-active [data-slide-part] {
+    animation: hero-copy-rise 600ms ease-out 150ms both;
+}
+.hero-copy.is-active [data-slide-part="text"] {
+    animation-delay: 250ms;
+}
+.hero-copy.is-active [data-slide-part="buttons"] {
+    animation-delay: 350ms;
+}
+.hero-copy.is-leaving {
+    visibility: visible;
+    animation: hero-copy-fade-out 250ms ease-in forwards;
+}
+
+/* active dot ke andar progress bar, ek slide mein bharta hai */
+.hero-dot-progress {
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: hero-dot-fill var(--hero-slide-duration, 3000ms) linear forwards;
+}
+.hero-slider-paused .hero-dot-progress {
+    animation-play-state: paused;
+}
+
+@keyframes hero-ken-burns {
+    from { transform: scale(1.08); }
+    to { transform: scale(1); }
+}
+@keyframes hero-copy-rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-copy-fade-out {
+    to { opacity: 0; }
+}
+@keyframes hero-dot-fill {
+    to { transform: scaleX(1); }
+}
+
+/* reduced motion: na zoom, na uthta text, na progress bar - sirf fade */
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide.is-active img,
+    .hero-slide.is-leaving img,
+    .hero-copy.is-active [data-slide-part],
+    .hero-copy.is-leaving {
+        animation: none;
+    }
+    .hero-copy.is-leaving {
+        visibility: hidden;
+    }
+    .hero-dot-progress {
+        display: none;
+    }
+}
